@@ -16,17 +16,34 @@ import { http } from 'viem';
 import { mainnet } from 'viem/chains';
 import { PropsWithChildren } from 'react';
 import AddSong from './AddSong';
+import Navbar from './components/NavBar';
+import { iliad } from '@story-protocol/core-sdk';
 // Initialize the QueryClient
 const queryClient = new QueryClient();
 
 // Configure Wagmi
 const config = createConfig({
-  chains: [mainnet],
+  chains: [iliad],
   multiInjectedProviderDiscovery: false,
   transports: {
-    [mainnet.id]: http(),
+    [iliad.id]: http(),
   },
 });
+
+const evmNetworks = [{
+  blockExplorerUrls: ["https://testnet.storyscan.xyz"],
+  chainId: 1513,
+  name: "Story Iliad",
+  networkId: 1513,
+  iconUrls: ["https://www.storyprotocol.xyz"],
+  nativeCurrency: {
+    decimals: 18,
+    name: "Story Iliad IP",
+    symbol: "IP"
+  },
+  rpcUrls: ["https://testnet.storyrpc.io"],
+  vanityName: "Story Iliad",
+}]
 
 export default function Web3Providers({ children }: PropsWithChildren) {
   const environmentId = process.env.NEXT_PUBLIC_ENVIRONMENT_ID || 'default-environment-id';
@@ -34,6 +51,7 @@ export default function Web3Providers({ children }: PropsWithChildren) {
     <DynamicContextProvider
       settings={{
         environmentId: environmentId,
+        overrides: {evmNetworks},
         walletConnectors: [EthereumWalletConnectors],
       }}
     >

@@ -4,7 +4,7 @@ import { useAccount, useWalletClient } from "wagmi";
 import { StoryClient, StoryConfig, PIL_TYPE } from "@story-protocol/core-sdk";
 import { uploadJSONToIPFS } from "./utils/uploadToIpfs";
 import { createHash } from "crypto";
-import { custom } from "viem";
+import { custom, http } from "viem";
 
 export default function AddSong() {
   const { address, isConnected } = useAccount();
@@ -55,12 +55,16 @@ export default function AddSong() {
     setMessage("Uploading metadata to IPFS...");
 
     try {
-      const config: StoryConfig = {
-        account: wallet!.account,
-        transport: custom(wallet!.transport),
-        chainId: "iliad",
-      };
-      const client = StoryClient.newClient(config);
+      console.log(wallet)
+      if (wallet) {
+        const config: StoryConfig = {
+          wallet: wallet,
+          transport: http('https://testnet.storyrpc.io'),
+          chainId: "1513",
+        }
+        // @ts-ignore
+        const client = StoryClient.newClientUseWallet(config);
+      
 
       // Prepare IP Metadata
       const ipMetadata = client.ipAsset.generateIpMetadata({
@@ -79,7 +83,7 @@ export default function AddSong() {
       const nftMetadata: any = {
         name: title,
         description: description,
-        song_url:musicFile,
+        song_url: musicFile,
       };
 
       // Upload NFT Metadata to IPFS
@@ -92,7 +96,7 @@ export default function AddSong() {
       // Mint and Register IP Asset
       setMessage("Minting and registering IP asset...");
       const response = await client.ipAsset.mintAndRegisterIpAssetWithPilTerms({
-        nftContract: "0xAceb5E631d743AF76aF69414eC8D356c13435E59",
+        nftContract: "0x8Cd233A62e985b0FDF3C61332eA5390A76eaf8A5",
         pilType: PIL_TYPE.NON_COMMERCIAL_REMIX,
         ipMetadata: {
           ipMetadataURI: `ipfs://${ipIpfsHash}`,
@@ -102,8 +106,10 @@ export default function AddSong() {
         },
         txOptions: { waitForTransaction: true },
       });
+      console.log(response)
 
       setMessage(`Asset created! Transaction hash: ${response.txHash}`);
+    }
     } catch (error) {
       console.error(error);
       setMessage("An error occurred during the process.");
@@ -113,86 +119,98 @@ export default function AddSong() {
   };
 
   return (
-    <div>
-      <h1>Add a New Song</h1>
+    <div className="p-10 max-w-xl mx-auto bg-white shadow-xl rounded-lg">
+      <h1 className="text-3xl font-bold mb-8 text-center">Add a New Song</h1>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Song Title:</label>
+        <div className="mb-4">
+          <label className="label">
+            <span className="label-text">Song Title:</span>
+          </label>
           <input
             type="text"
+            className="input input-bordered w-full"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
           />
         </div>
 
-        <div>
-          <label>Song Art (Image):</label>
+        <div className="mb-4">
+          <label className="label">
+            <span className="label-text">Song Art (Image):</span>
+          </label>
           <input
             type="file"
+            className="file-input file-input-bordered w-full"
             accept="image/*"
             onChange={(e) => setSongArt(e.target.files?.[0] || null)}
           />
         </div>
 
-        <div>
-          <label>Description:</label>
+        <div className="mb-4">
+          <label className="label">
+            <span className="label-text">Description:</span>
+          </label>
           <textarea
+            className="textarea textarea-bordered w-full"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
           />
         </div>
 
-        <div>
-          <label>Song Music URL:</label>
+        <div className="mb-4">
+          <label className="label">
+            <span className="label-text">Song Music URL:</span>
+          </label>
           <input
             type="url"
-            value= {musicFile || ""}
+            className="input input-bordered w-full"
+            value={musicFile || ""}
             onChange={(e) => setMusicFile(e.target.value)}
             placeholder="Enter the music file URL"
             required
           />
         </div>
 
-        <div>
-          <h3>Attributes:</h3>
+        <div className="mb-6">
+          <h3 className="text-xl font-semibold mb-2">Attributes:</h3>
           {attributes.map((attribute, index) => (
-            <div key={index}>
+            <div key={index} className="flex items-center mb-2">
               <input
                 type="text"
                 placeholder="Key"
+                className="input input-bordered mr-2 w-1/2"
                 value={attribute.key}
-                onChange={(e) =>
-                  handleAttributeChange(index, "key", e.target.value)
-                }
+                onChange={(e) => handleAttributeChange(index, "key", e.target.value)}
               />
               <input
                 type="text"
                 placeholder="Value"
+                className="input input-bordered w-1/2"
                 value={attribute.value}
-                onChange={(e) =>
-                  handleAttributeChange(index, "value", e.target.value)
-                }
+                onChange={(e) => handleAttributeChange(index, "value", e.target.value)}
               />
               <button
                 type="button"
+                className="btn btn-error btn-sm ml-2"
                 onClick={() => handleRemoveAttribute(index)}
               >
                 Remove
               </button>
             </div>
           ))}
-          <button type="button" onClick={handleAddAttribute}>
+          <button type="button" className="btn btn-primary" onClick={handleAddAttribute}>
             Add Attribute
           </button>
         </div>
 
-        <button type="submit" disabled={loading}>
+        <button type="submit" className="btn btn-success w-full" disabled={loading}>
           {loading ? "Processing..." : "Submit"}
         </button>
       </form>
-      {message && <p>{message}</p>}
+
+      {message && <p className="mt-4 text-center text-lg font-semibold">{message}</p>}
     </div>
   );
 }
