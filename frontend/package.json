@@ -9,16 +9,31 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@dynamic-labs/ethereum": "^3.4.2",
+    "@dynamic-labs/sdk-react-core": "^3.4.2",
+    "@dynamic-labs/wagmi-connector": "^3.4.2",
+    "@rainbow-me/rainbowkit": "^2.2.0",
+    "@story-protocol/core-sdk": "^1.1.0-stable",
+    "@story-protocol/react-sdk": "^1.1.0-stable",
+    "@wagmi/core": "^2.13.9",
+    "crypto-js": "^4.2.0",
+    "daisyui": "^4.12.13",
+    "ethers": "^6.13.4",
+    "intro.js": "^7.2.0",
+    "next": "14.2.15",
+    "pino-pretty": "^11.3.0",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.15"
+    "viem": "^2.21.29",
+    "wagmi": "^2.12.20"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@types/crypto-js": "^4.2.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "postcss": "^8",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   }
 }
