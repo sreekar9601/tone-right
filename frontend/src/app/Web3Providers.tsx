@@ -15,7 +15,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { http } from 'viem';
 import { mainnet } from 'viem/chains';
 import { PropsWithChildren } from 'react';
-
+import AddSong from './AddSong';
 // Initialize the QueryClient
 const queryClient = new QueryClient();
 
@@ -42,6 +42,7 @@ export default function Web3Providers({ children }: PropsWithChildren) {
           <DynamicWagmiConnector>
             <DynamicWidget />
             <AccountInfo />
+            <AddSong />
           </DynamicWagmiConnector>
         </QueryClientProvider>
       </WagmiProvider>

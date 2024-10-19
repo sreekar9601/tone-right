@@ -1,3 +1,4 @@
+'use client'; 
 import { http } from "viem";
 import { Account, privateKeyToAccount, Address } from "viem/accounts";
 import { StoryClient, StoryConfig } from "@story-protocol/core-sdk";

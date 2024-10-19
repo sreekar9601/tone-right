@@ -1,4 +1,5 @@
-const pinataSDK = require('@pinata/sdk')
+'use server';
+import pinataSDK from '@pinata/sdk';
 
 export async function uploadJSONToIPFS(jsonMetadata: any): Promise<string> {
     const pinata = new pinataSDK({ pinataJWTKey: process.env.PINATA_JWT })
