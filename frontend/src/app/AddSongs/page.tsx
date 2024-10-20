@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useAccount, useWalletClient } from "wagmi";
 import { StoryClient, StoryConfig, PIL_TYPE } from "@story-protocol/core-sdk";
-import { uploadJSONToIPFS } from "./utils/uploadToIpfs";
+import { uploadJSONToIPFS } from "../utils/uploadToIpfs";
 import { createHash } from "crypto";
 import { custom, http } from "viem";
 
@@ -96,7 +96,7 @@ export default function AddSong() {
       // Mint and Register IP Asset
       setMessage("Minting and registering IP asset...");
       const response = await client.ipAsset.mintAndRegisterIpAssetWithPilTerms({
-        nftContract: "0x8Cd233A62e985b0FDF3C61332eA5390A76eaf8A5",
+        nftContract: "0x8Cd233A62e985b0FDF3C61332eA5390A76eaf8A5",  
         pilType: PIL_TYPE.NON_COMMERCIAL_REMIX,
         ipMetadata: {
           ipMetadataURI: `ipfs://${ipIpfsHash}`,

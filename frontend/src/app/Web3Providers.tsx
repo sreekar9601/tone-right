@@ -1,3 +1,4 @@
+// app/Web3Providers.tsx
 'use client';
 import '@rainbow-me/rainbowkit/styles.css';
 import {
@@ -13,11 +14,9 @@ import {
 } from 'wagmi';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { http } from 'viem';
-import { mainnet } from 'viem/chains';
 import { PropsWithChildren } from 'react';
-import AddSong from './AddSong';
-import Navbar from './components/NavBar';
 import { iliad } from '@story-protocol/core-sdk';
+
 // Initialize the QueryClient
 const queryClient = new QueryClient();
 
@@ -51,7 +50,7 @@ export default function Web3Providers({ children }: PropsWithChildren) {
     <DynamicContextProvider
       settings={{
         environmentId: environmentId,
-        overrides: {evmNetworks},
+        overrides: { evmNetworks },
         walletConnectors: [EthereumWalletConnectors],
       }}
     >
@@ -60,7 +59,7 @@ export default function Web3Providers({ children }: PropsWithChildren) {
           <DynamicWagmiConnector>
             <DynamicWidget />
             <AccountInfo />
-            <AddSong />
+            {children} {/* Render children here */}
           </DynamicWagmiConnector>
         </QueryClientProvider>
       </WagmiProvider>
