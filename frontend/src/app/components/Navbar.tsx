@@ -1,9 +1,16 @@
 "use client";
 import { useAccount } from "wagmi";
+import { useRouter } from "next/navigation"; // Import useRouter
 import { DynamicWidget } from '@dynamic-labs/sdk-react-core';
 
 export default function Navbar() {
   const { address, isConnected } = useAccount(); // Using wagmi for account status
+  const router = useRouter(); // Initialize router
+
+  // Navigation handlers
+  const handleNavigate = (path: string) => {
+    router.push(path); // Navigate to the desired route
+  };
 
   return (
     <div className="navbar bg-base-100">
@@ -17,6 +24,12 @@ export default function Navbar() {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
+              <img
+                src='./TuneRights.png' // Update this with the correct path to your PNG image
+                alt="Icon description"
+                className="h-5 w-5" // Apply the same styling you had on the SVG (height and width)
+                style={{ objectFit: 'contain' }} // Ensures the image maintains its aspect ratio
+              />
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -30,18 +43,19 @@ export default function Navbar() {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li>
-              <a href="#">Explore</a>
+              <a role="button" onClick={() => handleNavigate('/AddSongs')}>
+                Publish a song
+              </a>
             </li>
             <li>
-              <a href="#">Publish a TUNE</a>
-            </li>
-            <li>
-              <a href="#">My TUNEs</a>
+              <a role="button" onClick={() => handleNavigate('/ListSongs')}>
+                My Music
+              </a>
             </li>
           </ul>
         </div>
         <a className="btn btn-ghost text-xl" href="#">
-          daisyUI
+          TuneRight
         </a>
       </div>
       <div className="navbar-center hidden lg:flex">
@@ -50,10 +64,14 @@ export default function Navbar() {
             <a href="#">Explore</a>
           </li>
           <li>
-            <a href="#">Publish a TUNE</a>
+            <a role="button" onClick={() => handleNavigate('/AddSongs')}>
+              Publish a song
+            </a>
           </li>
           <li>
-            <a href="#">My TUNEs</a>
+            <a role="button" onClick={() => handleNavigate('/ListSongs')}>
+              My Music
+            </a>
           </li>
         </ul>
       </div>

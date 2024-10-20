@@ -106,7 +106,7 @@ const ListSongs: React.FC = () => {
             <div className="card-actions justify-end">
               <Link 
                 href={{
-                  pathname: `/song/${asset.id}`,
+                  pathname: `/song/${metadata.id}`,
                   query: { 
                     metadata: JSON.stringify(metadata[asset.id]),
                     nftMetadata: JSON.stringify(asset.nftMetadata)
