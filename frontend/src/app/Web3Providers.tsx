@@ -3,7 +3,6 @@
 import '@rainbow-me/rainbowkit/styles.css';
 import {
   DynamicContextProvider,
-  DynamicWidget,
 } from '@dynamic-labs/sdk-react-core';
 import { EthereumWalletConnectors } from '@dynamic-labs/ethereum';
 import { DynamicWagmiConnector } from '@dynamic-labs/wagmi-connector';
@@ -57,8 +56,6 @@ export default function Web3Providers({ children }: PropsWithChildren) {
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
           <DynamicWagmiConnector>
-            <DynamicWidget />
-            <AccountInfo />
             {children} {/* Render children here */}
           </DynamicWagmiConnector>
         </QueryClientProvider>
@@ -67,16 +64,16 @@ export default function Web3Providers({ children }: PropsWithChildren) {
   );
 }
 
-function AccountInfo() {
-  const { address, isConnected, chain } = useAccount();
+// function AccountInfo() {
+//   const { address, isConnected, chain } = useAccount();
 
-  return (
-    <div>
-      <p>
-        wagmi connected: {isConnected ? 'true' : 'false'}
-      </p>
-      <p>wagmi address: {address}</p>
-      <p>wagmi network: {chain?.id}</p>
-    </div>
-  );
-};
+//   return (
+//     <div>
+//       <p>
+//         wagmi connected: {isConnected ? 'true' : 'false'}
+//       </p>
+//       <p>wagmi address: {address}</p>
+//       <p>wagmi network: {chain?.id}</p>
+//     </div>
+//   );
+// };

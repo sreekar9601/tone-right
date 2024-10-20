@@ -1,7 +1,10 @@
 "use client";
-import React from "react";
+import { useAccount } from "wagmi";
+import { DynamicWidget } from '@dynamic-labs/sdk-react-core';
 
-const Navbar: React.FC = () => {
+export default function Navbar() {
+  const { address, isConnected } = useAccount(); // Using wagmi for account status
+
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -27,21 +30,13 @@ const Navbar: React.FC = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li>
-              <a href="#">Item 1</a>
+              <a href="#">Explore</a>
             </li>
             <li>
-              <a href="#">Parent</a>
-              <ul className="p-2">
-                <li>
-                  <a href="#">Submenu 1</a>
-                </li>
-                <li>
-                  <a href="#">Submenu 2</a>
-                </li>
-              </ul>
+              <a href="#">Publish a TUNE</a>
             </li>
             <li>
-              <a href="#">Item 3</a>
+              <a href="#">My TUNEs</a>
             </li>
           </ul>
         </div>
@@ -52,33 +47,26 @@ const Navbar: React.FC = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <a href="#">Item 1</a>
+            <a href="#">Explore</a>
           </li>
           <li>
-            <details>
-              <summary>Parent</summary>
-              <ul className="p-2">
-                <li>
-                  <a href="#">Submenu 1</a>
-                </li>
-                <li>
-                  <a href="#">Submenu 2</a>
-                </li>
-              </ul>
-            </details>
+            <a href="#">Publish a TUNE</a>
           </li>
           <li>
-            <a href="#">Item 3</a>
+            <a href="#">My TUNEs</a>
           </li>
         </ul>
       </div>
       <div className="navbar-end">
-        <a className="btn" href="#">
-          Button
-        </a>
+        {isConnected ? (
+          <span className="btn btn-ghost">
+            {address?.slice(0, 6)}...{address?.slice(-4)}
+          </span>
+        ) : (
+          // Use DynamicWidget for wallet connection
+          <DynamicWidget />
+        )}
       </div>
     </div>
   );
-};
-
-export default Navbar;
+}

@@ -4,7 +4,8 @@ import "./globals.css";
 import { Metadata } from "next";
 import "intro.js/introjs.css";
 import Web3Providers from "./Web3Providers";
-
+import Navbar from "./components/Navbar";
+import Footer from "./components/footer";
 export const metadata: Metadata = {
   title: "Developer Sandbox",
   description: "A developer sandbox for building on Story.",
@@ -20,8 +21,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Web3Providers>{children}</Web3Providers>
-      </body>
+        <Web3Providers><Navbar />{children}<Footer /></Web3Providers>
+      </body> 
     </html>
   );
 }
